@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Images Example - BrainCaptcha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+        .container {
+            background: #2d2d2d;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            color: #646cff;
+            text-align: center;
+        }
+        .step {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #333;
+            border-radius: 8px;
+            border-left: 4px solid #646cff;
+        }
+        .step h3 {
+            color: #646cff;
+            margin-top: 0;
+        }
+        code {
+            background: #1a1a1a;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #ff6b6b;
+        }
+        .code-block {
+            background: #1a1a1a;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .code-block pre {
+            margin: 0;
+            color: #ffffff;
+        }
+        .folder-structure {
+            font-family: monospace;
+            background: #1a1a1a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .folder-structure .folder {
+            color: #646cff;
+        }
+        .folder-structure .file {
+            color: #ffffff;
+        }
+        .folder-structure .image {
+            color: #4caf50;
+        }
+        #captcha-container {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #333;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Using Local Images in BrainCaptcha</h1>
+        <p>This guide shows you how to use local images in your BrainCaptcha questions.</p>
+    </div>
+
+    <div class="container">
+        <div class="step">
+            <h3>Step 1: Create Your Questions with Local Images</h3>
+            <p>1. Open the Question Designer: <code>question-designer/index.html</code></p>
+            <p>2. Select "Image Question" as the question type</p>
+            <p>3. Click "📁 Upload Local Image" to select an image from your computer</p>
+            <p>4. The tool will suggest a path like <code>/images/your-image.jpg</code></p>
+            <p>5. Add your question text and answer options</p>
+            <p>6. Click "Add Question" to save it</p>
+        </div>
+
+        <div class="step">
+            <h3>Step 2: Export Your Configuration</h3>
+            <p>1. Click "Export with Settings" to download your complete configuration</p>
+            <p>2. This will give you a <code>braincaptcha-config.js</code> file</p>
+            <p>3. The file includes instructions for which images to copy where</p>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Set Up Your Website Structure</h3>
+            <p>Create this folder structure in your website:</p>
+            <div class="folder-structure">
+                <div class="folder">your-website/</div>
+                <div class="folder">├── images/</div>
+                <div class="image">│   ├── gigachad.jpg</div>
+                <div class="image">│   ├── sigma-male.png</div>
+                <div class="image">│   └── skibidi-toilet.gif</div>
+                <div class="folder">├── js/</div>
+                <div class="file">│   ├── braincaptcha.js</div>
+                <div class="file">│   └── braincaptcha-config.js</div>
+                <div class="file">└── index.html</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>Step 4: Copy Your Images</h3>
+            <p>Copy the images you uploaded to the <code>/images/</code> folder in your website.</p>
+            <p>Make sure the filenames match exactly what's in your configuration file.</p>
+        </div>
+
+        <div class="step">
+            <h3>Step 5: Use in Your Website</h3>
+            <p>Import and use your configuration:</p>
+            <div class="code-block">
+                <pre><code>// Import your configuration
+import { initializeCaptcha } from './js/braincaptcha-config.js';
+
+// Initialize captcha with your questions and settings
+const container = document.getElementById('captcha-container');
+const captcha = initializeCaptcha(container, function(result) {
+    console.log('Captcha completed! IQ:', result.iq);
+    console.log('Answers:', result.answers);
+    
+    if (result.iq >= 150) {
+        alert('Welcome, brainrot master! 🧠');
+    } else {
+        alert('Study more brainrot content! 📚');
+    }
+});</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>📋 Quick Checklist</h2>
+        <ul>
+            <li>✅ Created questions with local images using the Question Designer</li>
+            <li>✅ Exported configuration with "Export with Settings"</li>
+            <li>✅ Created <code>/images/</code> folder in website</li>
+            <li>✅ Copied all image files to <code>/images/</code> folder</li>
+            <li>✅ Imported configuration in website code</li>
+            <li>✅ Initialized captcha with <code>initializeCaptcha()</code></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h2>🚀 Example Configuration Output</h2>
+        <p>When you export with local images, you'll get a file that looks like this:</p>
+        <div class="code-block">
+            <pre><code>/*
+ * BrainCaptcha Complete Configuration
+ * 
+ * SETUP INSTRUCTIONS:
+ * 1. Copy these image files to your website:
+ *    - gigachad.jpg → /images/gigachad.jpg
+ *    - sigma-male.png → /images/sigma-male.png
+ * 
+ * 2. Import this configuration in your website:
+ *    import { initializeCaptcha } from './braincaptcha-config.js';
+ * 
+ * 3. Initialize the captcha:
+ *    const captcha = initializeCaptcha(container, callback);
+ */
+
+export const questions = [
+    {
+        "type": "image",
+        "image": "/images/gigachad.jpg",
+        "question": "This represents:",
+        "options": ["Beta", "Alpha", "Sigma", "Omega"],
+        "correct": 2,
+        "brainrotLevel": "high"
+    }
+    // ... more questions
+];
+
+export function initializeCaptcha(container, callback) {
+    const captcha = new BrainCaptcha(container, callback, {
+        questions: questions,
+        questionsPerCaptcha: 5,
+        baseIQ: 80,
+        correctAnswerPoints: 20
+    });
+    return captcha;
+}</code></pre>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>💡 Tips for Best Results</h2>
+        <ul>
+            <li><strong>Image Size:</strong> Keep images under 5MB for faster loading</li>
+            <li><strong>Format:</strong> Use JPG, PNG, or GIF formats</li>
+            <li><strong>Dimensions:</strong> Recommended: 400x400px or similar square aspect ratio</li>
+            <li><strong>Naming:</strong> Use descriptive names like "gigachad.jpg" or "sigma-male.png"</li>
+            <li><strong>Organization:</strong> Keep all images in one folder for easy management</li>
+        </ul>
+    </div>
+</body>
+</html>

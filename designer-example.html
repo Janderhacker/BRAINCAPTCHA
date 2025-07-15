@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainCaptcha - Question Designer Integration</title>
+    <link rel="stylesheet" href="src/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #646cff;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .header small {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .config-info {
+            background: rgba(45, 45, 45, 0.5);
+            border: 1px solid #404040;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .config-info h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            color: #646cff;
+        }
+
+        .config-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(45, 45, 45, 0.5);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid #404040;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #646cff;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .captcha-container {
+            background: rgba(45, 45, 45, 0.5);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 400px;
+            border: 1px solid #404040;
+        }
+
+        .instructions {
+            background: rgba(45, 45, 45, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid #404040;
+        }
+
+        .instructions h3 {
+            margin-bottom: 1rem;
+            color: #646cff;
+        }
+
+        .instructions ol {
+            margin-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .instructions code {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #ff6b6b;
+        }
+
+        .setup-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .setup-warning h4 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .start-btn {
+            background: #646cff;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 2rem auto;
+        }
+
+        .start-btn:hover {
+            background: #535bf2;
+            transform: translateY(-2px);
+        }
+
+        .start-btn:disabled {
+            background: #404040;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #404040;
+            opacity: 0.7;
+        }
+
+        .footer a {
+            color: #646cff;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .config-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 BrainCaptcha</h1>
+            <p>Advanced Brainrot Intelligence Assessment</p>
+            <p><small>Using Question Designer Configuration</small></p>
+        </div>
+
+        <div class="config-info">
+            <h3>📊 Configuration Details</h3>
+            <div class="config-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalQuestions">-</div>
+                    <div class="stat-label">Total Questions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="questionsPerCaptcha">-</div>
+                    <div class="stat-label">Questions per Test</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="baseIQ">-</div>
+                    <div class="stat-label">Base IQ</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="maxIQ">-</div>
+                    <div class="stat-label">Max IQ</div>
+                </div>
+            </div>
+            
+            <div class="setup-warning">
+                <h4>⚠️ Setup Required</h4>
+                <p>This example uses the configuration exported from the Question Designer. To use images:</p>
+                <div class="code-block">
+                    1. Copy image files to /images/ folder<br>
+                    2. Update paths in braincaptcha-config.js<br>
+                    3. Ensure images are accessible from your web server
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🚀 How This Works</h3>
+            <ol>
+                <li>This example uses a <code>braincaptcha-config.js</code> file generated by the Question Designer</li>
+                <li>The configuration includes custom questions with your defined settings</li>
+                <li>Settings are pre-configured based on your Question Designer choices</li>
+                <li>Images should be in your <code>/images/</code> folder as specified in the config</li>
+                <li>Click "Start Assessment" to begin the brainrot intelligence test</li>
+            </ol>
+        </div>
+
+        <div class="captcha-container" id="captcha-container">
+            <div style="text-align: center; padding: 2rem;">
+                <h3>🚀 Ready to Test Your Brainrot Knowledge?</h3>
+                <p style="margin: 1rem 0; opacity: 0.8;">This captcha will present you with questions based on your Question Designer configuration.</p>
+                <button class="start-btn" id="startBtn" onclick="startCaptcha()">Start Assessment</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="question-designer/index.html">🎨 Question Designer</a>
+            <a href="local-images-example.html">📁 Local Images Guide</a>
+            <a href="index.html">🏠 Main Demo</a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { BrainCaptcha } from './src/braincaptcha.js';
+        import { captchaConfig, initializeCaptcha } from './braincaptcha-config.js';
+
+        // Make functions available globally
+        window.startCaptcha = startCaptcha;
+        window.captchaConfig = captchaConfig;
+
+        function startCaptcha() {
+            const container = document.getElementById('captcha-container');
+            const startBtn = document.getElementById('startBtn');
+            
+            // Disable button and show loading
+            if (startBtn) {
+                startBtn.disabled = true;
+                startBtn.textContent = 'Loading...';
+            }
+            
+            // Clear container
+            container.innerHTML = '';
+            
+            try {
+                // Initialize captcha with exported configuration
+                const captcha = initializeCaptcha(container, handleResult, BrainCaptcha);
+                
+                console.log('Captcha initialized with config:', captchaConfig);
+            } catch (error) {
+                console.error('Error initializing captcha:', error);
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <h3 style="color: #f44336;">Error Loading Captcha</h3>
+                        <p>Could not load the captcha. Please check the console for details.</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7;">Make sure all image files are in the /images/ folder.</p>
+                        <button class="start-btn" onclick="location.reload()">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+
+        function handleResult(result) {
+            const container = document.getElementById('captcha-container');
+            
+            // Calculate performance based on IQ score
+            const performanceText = result.iq >= 150 ? 'Excellent Brainrot Knowledge!' : 
+                                   result.iq >= 120 ? 'Good Brainrot Understanding' : 
+                                   result.iq >= 100 ? 'Average Brainrot Awareness' : 'Study More Brainrot!';
+            
+            const performanceColor = result.iq >= 150 ? '#4caf50' : 
+                                    result.iq >= 120 ? '#2196f3' : 
+                                    result.iq >= 100 ? '#ff9800' : '#f44336';
+            
+            container.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <h2 style="color: ${performanceColor}; margin-bottom: 1rem;">
+                        🎉 Assessment Complete!
+                    </h2>
+                    
+                    <div style="background: rgba(100, 108, 255, 0.1); border: 1px solid rgba(100, 108, 255, 0.3); border-radius: 12px; padding: 2rem; margin: 2rem 0;">
+                        <div style="font-size: 3rem; font-weight: bold; color: ${performanceColor}; margin-bottom: 0.5rem;">
+                            ${result.iq}
+                        </div>
+                        <div style="font-size: 1.2rem; opacity: 0.8; margin-bottom: 1rem;">
+                            Brainrot IQ Score
+                        </div>
+                        <div style="font-size: 1.1rem; color: ${performanceColor};">
+                            ${performanceText}
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                        <div style="background: rgba(45, 45, 45, 0.5); padding: 1rem; border-radius: 8px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #646cff;">${result.correctAnswers}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Correct</div>
+                        </div>
+                        <div style="background: rgba(45, 45, 45, 0.5); padding: 1rem; border-radius: 8px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #646cff;">${result.totalQuestions}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Total</div>
+                        </div>
+                        <div style="background: rgba(45, 45, 45, 0.5); padding: 1rem; border-radius: 8px;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #646cff;">${Math.round((result.correctAnswers / result.totalQuestions) * 100)}%</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Accuracy</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <button class="start-btn" onclick="startCaptcha()">
+                            Try Again
+                        </button>
+                        <button class="start-btn" onclick="window.open('question-designer/index.html', '_blank')" style="background: #4caf50; margin-left: 1rem;">
+                            Create Questions
+                        </button>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7; background: rgba(45, 45, 45, 0.3); padding: 1rem; border-radius: 8px;">
+                        <p><strong>Configuration Used:</strong></p>
+                        <p>Selection Method: ${captchaConfig.settings.selectionMethod}</p>
+                        <p>Questions Per Test: ${captchaConfig.settings.questionsPerCaptcha}</p>
+                        <p>Base IQ: ${captchaConfig.settings.baseIQ}</p>
+                        <p>Points per Correct Answer: ${captchaConfig.settings.correctAnswerPoints}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Display configuration info on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const config = captchaConfig;
+            document.getElementById('totalQuestions').textContent = config.metadata.totalQuestions;
+            document.getElementById('questionsPerCaptcha').textContent = config.settings.questionsPerCaptcha;
+            document.getElementById('baseIQ').textContent = config.settings.baseIQ;
+            document.getElementById('maxIQ').textContent = config.settings.maxIQ;
+        });
+    </script>
+</body>
+</html>

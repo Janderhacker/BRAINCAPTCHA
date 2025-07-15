@@ -1,0 +1,32 @@
+{
+  "name": "braincaptcha",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A brainrot-themed captcha system that calculates fake IQ scores",
+  "main": "dist/braincaptcha.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:lib": "vite build --mode lib",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "captcha",
+    "brainrot",
+    "memes",
+    "iq-test",
+    "skibidi",
+    "sigma",
+    "ohio",
+    "rizz"
+  ],
+  "author": "BrainCaptcha",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^7.0.4"
+  }
+}
